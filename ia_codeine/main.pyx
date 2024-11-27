@@ -89,6 +89,7 @@ from llama_index.core.retrievers             import AutoMergingRetriever
 from llama_index.core.storage.chat_store     import BaseChatStore
 from llama_index.core.tools                  import QueryEngineTool
 from llama_index.core.tools                  import FunctionTool
+from llama_index.core.tools.tool_spec.base   import BaseToolSpec
 from llama_index.core.tools.types            import ToolMetadata
 from llama_index.core.tools.types            import AsyncBaseTool
 from llama_index.core.tools.types            import BaseTool
@@ -309,13 +310,16 @@ class CodeineConfig():
 	#		llm      =self.chat_llm,
 	#		memory   =self.memory, )
 
-	# TODO
+	@cached_property
+	def ddg_tool_spec(self,)->BaseToolSpec:
+		return DuckDuckGoSearchToolSpec()
 
 	@property
 	def tools(self,)->List[BaseTool]:
 		return [
 			self.spydir  .query_engine_tool,
 			self.sisyphus.query_engine_tool,
+			*self.ddg_tool_spec.to_tool_list(),
 		]
 
 	@cached_property

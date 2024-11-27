@@ -1,2 +1,3 @@
 ia_sisyphus
 ia_spydir
+llama-index-tools-duckduckgo
