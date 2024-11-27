@@ -101,6 +101,7 @@ from llama_index.readers.database            import DatabaseReader
 from llama_index.storage.docstore.redis      import RedisDocumentStore
 from llama_index.storage.index_store.redis   import RedisIndexStore
 from llama_index.storage.kvstore.redis       import RedisKVStore as RedisCache
+from llama_index.tools.duckduckgo            import DuckDuckGoSearchToolSpec
 from llama_index.vector_stores.redis         import RedisVectorStore
 from ollama                                  import AsyncClient
 from ollama                                  import Client
