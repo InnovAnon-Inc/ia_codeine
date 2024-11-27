@@ -208,7 +208,7 @@ class CodeineConfig():
 
 	@property
 	def namespace(self,)->str:
-		return 'Codeine'
+		return 'Codeine' # TODO per-dir
 
 	@property
 	def collection(self,)->str:
