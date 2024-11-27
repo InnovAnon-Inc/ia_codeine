@@ -1,0 +1,14 @@
+services:
+  ia_codeine:
+    hostname:         ia_codeine.innovanon.com
+    build:
+      context:        .
+      tags:
+        - innovanon/ia_codeine:latest
+    #    -           ia_codeine:latest
+    #    - innovanon/ia_codeine
+    #    -           ia_codeine
+    image:            innovanon/ia_codeine
+    restart:          no
+    logging:
+      driver:         syslog   
