@@ -372,9 +372,13 @@ def main()->None:
 		sisyphus=sisyphus, )
 
 	while True:
-		message       :str                = input('User: ')
-		result        :AgentChatResponse  = config.chat(message=message,)
-		print('Agent:', result,)
+		try:
+			message      :str                = input('User: ')
+			result       :AgentChatResponse  = config.chat(message=message,)
+			print('Agent:', result,)
+		except (EOFError,) as error:
+			logger.error('EOF: %s', error)
+			break
 
 if __name__ == '__main__':
 	main()
