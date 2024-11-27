@@ -42,6 +42,7 @@ from llama_index.core.agent                  import AgentRunner
 from llama_index.core.agent                  import StructuredPlannerAgent
 from llama_index.core.agent.function_calling.base import FunctionCallingAgent
 from llama_index.core.agent.runner.base      import AgentRunner
+from llama_index.core.base.base_retriever    import BaseRetriever
 from llama_index.core.base.embeddings.base   import BaseEmbedding
 from llama_index.core.base.llms.types        import ChatMessage
 from llama_index.core.base.llms.types        import MessageRole
@@ -89,6 +90,7 @@ from llama_index.core.retrievers             import AutoMergingRetriever
 from llama_index.core.storage.chat_store     import BaseChatStore
 from llama_index.core.tools                  import QueryEngineTool
 from llama_index.core.tools                  import FunctionTool
+from llama_index.core.tools.ondemand_loader_tool import OnDemandLoaderTool
 from llama_index.core.tools.tool_spec.base   import BaseToolSpec
 from llama_index.core.tools.types            import ToolMetadata
 from llama_index.core.tools.types            import AsyncBaseTool
@@ -97,7 +99,8 @@ from llama_index.core.tools.types            import BaseTool
 from llama_index.llms.ollama                 import Ollama
 from llama_index.multi_modal_llms.ollama     import OllamaMultiModal
 from llama_index.node_parser.topic           import TopicNodeParser
-from llama_index.readers.database            import DatabaseReader
+#from llama_index.readers.database            import DatabaseReader
+from llama_index.readers.wikipedia           import WikipediaReader
 #from llama_index.retrievers.bm25             import BM25Retriever
 from llama_index.storage.docstore.redis      import RedisDocumentStore
 from llama_index.storage.index_store.redis   import RedisIndexStore
@@ -314,11 +317,23 @@ class CodeineConfig():
 	def ddg_tool_spec(self,)->BaseToolSpec:
 		return DuckDuckGoSearchToolSpec()
 
+	@cached_property
+	def wikipedia_reader(self,)->WikipediaReader: # TODO
+		return WikipediaReader()
+
+	@cached_property
+	def wikipedia_tool(self,)->BaseTool:
+		return OnDemandLoaderTool.from_defaults(
+			self.wikipedia_reader,
+			name       ='Wikipedia Tool',
+			description='A tool for loading and querying articles from Wikipedia', )
+
 	@property
 	def tools(self,)->List[BaseTool]:
 		return [
 			self.spydir  .query_engine_tool,
 			self.sisyphus.query_engine_tool,
+			self.wikipedia_tool,
 			*self.ddg_tool_spec.to_tool_list(),
 		]
 
