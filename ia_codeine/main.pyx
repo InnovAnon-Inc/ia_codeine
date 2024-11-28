@@ -333,7 +333,7 @@ class CodeineConfig():
 		return [
 			self.spydir  .query_engine_tool,
 			self.sisyphus.query_engine_tool,
-			self.wikipedia_tool,
+			#self.wikipedia_tool, # hard to use for the LLM
 			*self.ddg_tool_spec.to_tool_list(),
 		]
 
